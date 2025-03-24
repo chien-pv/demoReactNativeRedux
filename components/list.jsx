@@ -2,6 +2,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { fechTodo } from "../redux/actionThunk";
+import { useGetTodosQuery } from "../redux/createAPI";
 
 import Item from "./item";
 
@@ -12,12 +13,15 @@ const styles = StyleSheet.create({
   },
 });
 function List() {
+  const { data, error, isLoading } = useGetTodosQuery();
+  console.log(isLoading);
+  console.log(data);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fechTodo());
   }, []);
-  let data = useSelector((state) => state.todos);
+  let datas = useSelector((state) => state.todos);
   return (
     <View style={styles.container}>
       <FlatList data={data} renderItem={({ item }) => <Item item={item} />} />
